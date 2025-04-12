@@ -15,7 +15,6 @@ function Login() {
         userid: userId,
         password: password
       });
-
       localStorage.setItem("userId", userId); // simple session
       navigate('/dashboard');
     } catch (err) {

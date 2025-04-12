@@ -11,6 +11,24 @@ function Dashboard() {
       navigate('/login');
     }
   }, [navigate]);
+useEffect(() => {
+    const fetchUserData = async () => {
+        try {
+            const userId = localStorage.getItem("userId");
+            const response = await fetch(`/api/user-profile/${userId}`);
+            if (!response.ok) {
+                throw new Error("Failed to fetch user data");
+            }
+            const userData = await response.json();
+            console.log("User Data:", userData);
+            localStorage.setItem("username", userData.username); // Save username in local storage
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
+
+    fetchUserData();
+}, []);
 
   return (
     <div className="container mt-4">

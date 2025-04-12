@@ -4,9 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 function Navbar() {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
-
+  const username = localStorage.getItem('username'); // Retrieve username from local storage
   const handleLogout = () => {
     localStorage.removeItem('userId');
+    localStorage.removeItem('username'); // Remove username from local storage
     navigate('/login');
   };
 
@@ -19,7 +20,7 @@ function Navbar() {
           {userId ? (
             <>
               <li className="nav-item">
-                <span className="nav-link">Logged in as <strong>{userId}</strong></span>
+                <span className="nav-link">Logged in as <strong>{username} ({userId})</strong></span>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/dashboard">Dashboard</Link>
