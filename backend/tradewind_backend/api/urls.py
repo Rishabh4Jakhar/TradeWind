@@ -7,4 +7,6 @@ urlpatterns = [
     path('stock-transactions/', views.stock_transactions),
     path('top-holders/', views.top_holders),
     path('transactions-in-range/', views.transactions_in_range),
+    path('register/', views.register_user),
+    path('login/', views.login_user),
 ]

@@ -1,6 +1,43 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db import connection
+from django.contrib.auth.hashers import make_password, check_password
+from rest_framework import status
+
+@api_view(['POST'])
+def login_user(request):
+    user_id = request.data.get('userid')
+    password = request.data.get('password')
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT PasswordHash FROM User_Auth WHERE UserID = %s", [user_id])
+        result = cursor.fetchone()
+
+        if not result:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        stored_hash = result[0]
+        if check_password(password, stored_hash):
+            return Response({"message": "Login successful", "userid": user_id})
+        else:
+            return Response({"error": "Incorrect password"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['POST'])
+def register_user(request):
+    name = request.data.get('name')
+    user_id = request.data.get('userid')
+    raw_password = request.data.get('password')
+
+    with connection.cursor() as cursor:
+        # Insert into User table
+        cursor.execute("INSERT INTO User (UserID, Name) VALUES (%s, %s)", [user_id, name])
+
+        # Insert password hash into User_Auth table
+        hashed_password = make_password(raw_password)
+        cursor.execute("INSERT INTO User_Auth (UserID, PasswordHash) VALUES (%s, %s)", [user_id, hashed_password])
+
+    return Response({"message": "User registered successfully"})
 
 # Helper to run raw SQL and return results as list of dicts
 def run_query(query, params, description):
