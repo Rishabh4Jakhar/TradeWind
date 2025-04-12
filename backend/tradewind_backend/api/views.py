@@ -4,13 +4,14 @@ from django.db import connection
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import status
 
+
 @api_view(['POST'])
 def login_user(request):
     user_id = request.data.get('userid')
     password = request.data.get('password')
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT PasswordHash FROM User_Auth WHERE UserID = %s", [user_id])
+        cursor.execute("SELECT Password FROM User WHERE UserID = %s", [user_id])
         result = cursor.fetchone()
 
         if not result:
@@ -22,22 +23,27 @@ def login_user(request):
         else:
             return Response({"error": "Incorrect password"}, status=status.HTTP_401_UNAUTHORIZED)
 
-
 @api_view(['POST'])
 def register_user(request):
-    name = request.data.get('name')
     user_id = request.data.get('userid')
+    name = request.data.get('name')
+    email = request.data.get('email')
     raw_password = request.data.get('password')
 
-    with connection.cursor() as cursor:
-        # Insert into User table
-        cursor.execute("INSERT INTO User (UserID, Name) VALUES (%s, %s)", [user_id, name])
+    try:
+        with connection.cursor() as cursor:
+            # Hash the password before storing
+            hashed_password = make_password(raw_password)
 
-        # Insert password hash into User_Auth table
-        hashed_password = make_password(raw_password)
-        cursor.execute("INSERT INTO User_Auth (UserID, PasswordHash) VALUES (%s, %s)", [user_id, hashed_password])
+            cursor.execute("""
+                INSERT INTO User (UserID, Name, Email, Password, Virtual_Balance)
+                VALUES (%s, %s, %s, %s, %s)
+            """, [user_id, name, email, hashed_password, 1000.00])
 
-    return Response({"message": "User registered successfully"})
+        return Response({"message": "User registered successfully"})
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 # Helper to run raw SQL and return results as list of dicts
 def run_query(query, params, description):
