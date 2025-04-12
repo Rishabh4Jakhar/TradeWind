@@ -55,24 +55,24 @@ def run_query(query, params, description):
 
 
 @api_view(['POST'])
-def user_profile(request):
+def user_name(request):
     user_id = request.data.get('userid')
     query = """
-        SELECT UserID, Name, Email, Virtual_Balance
+        SELECT Name
         FROM User
         WHERE UserID = %s
     """
-    # return response in json format 
-    #print("User Info: ", user_id)
-    with connection.cursor() as cursor:
-        #cursor.execute(query, [user_id])
-        #result = cursor.fetchone()
-        #print("User Info: ", result)
-        #return Response(result)
-        cursor.execute(query, [user_id])
-        result = cursor.fetchone()
-    #result = run_query(query, [user_id], f"User info for User ID: {user_id}")
-    return Response(run_query(query, [user_id], f"User info for User ID: {user_id}"))
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(query, [user_id])
+            result = cursor.fetchone()
+            print("## DEBUG: ", result)
+            if result:
+                return Response({"username": result[0]})
+            else:
+                return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def user_portfolio(request):
