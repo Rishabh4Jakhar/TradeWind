@@ -13,7 +13,7 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary px-4">
-      <span className="navbar-brand">📈 Tradewind</span>
+      <span className="navbar-brand"><Link className='nav-link' to='/'>📈 Tradewind</Link></span>
 
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ms-auto">
@@ -26,7 +26,7 @@ function Navbar() {
                 <span className="nav-link">Logged in as <strong>{username} ({userId})</strong></span>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/user-dashboard">Dashboard</Link>
+                <Link className="nav-link" to="/user-dashboard">User Dashboard</Link>
               </li>
               <li className="nav-item">
                 <button className="btn btn-outline-light btn-sm ms-2" onClick={handleLogout}>
