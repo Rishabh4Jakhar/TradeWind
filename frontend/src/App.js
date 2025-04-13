@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import UserDashboard from './pages/UserDashboard';
 import QueryDashboard from './components/QueryDashboard';
