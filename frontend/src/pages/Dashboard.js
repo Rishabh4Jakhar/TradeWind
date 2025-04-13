@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import QueryDashboard from '../components/QueryDashboard';
 
 function Dashboard() {
