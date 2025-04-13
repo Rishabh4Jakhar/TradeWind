@@ -17,13 +17,16 @@ function Navbar() {
 
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ms-auto">
+        <li className="nav-item">
+  <Link className="nav-link" to="/query-dashboard">Query Dashboard</Link>
+</li>
           {userId ? (
             <>
               <li className="nav-item">
                 <span className="nav-link">Logged in as <strong>{username} ({userId})</strong></span>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                <Link className="nav-link" to="/user-dashboard">Dashboard</Link>
               </li>
               <li className="nav-item">
                 <button className="btn btn-outline-light btn-sm ms-2" onClick={handleLogout}>

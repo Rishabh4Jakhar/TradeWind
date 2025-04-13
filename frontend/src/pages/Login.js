@@ -15,8 +15,9 @@ function Login() {
         userid: userId,
         password: password
       });
-      localStorage.setItem("userId", userId); // simple session
-      navigate('/dashboard');
+      localStorage.setItem("userId", res.data.userid);
+      localStorage.setItem("username", res.data.name);
+      navigate('/user-dashboard'); // redirect to dashboard
     } catch (err) {
       setErrorMsg(err.response?.data?.error || "Login failed");
     }

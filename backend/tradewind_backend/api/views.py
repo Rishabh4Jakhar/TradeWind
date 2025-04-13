@@ -11,15 +11,15 @@ def login_user(request):
     password = request.data.get('password')
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT Password FROM User WHERE UserID = %s", [user_id])
+        cursor.execute("SELECT Name, Password FROM User WHERE UserID = %s", [user_id])
         result = cursor.fetchone()
 
         if not result:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        stored_hash = result[0]
+        name, stored_hash = result
         if check_password(password, stored_hash):
-            return Response({"message": "Login successful", "userid": user_id})
+            return Response({"message": "Login successful", "userid": user_id, "name": name})
         else:
             return Response({"error": "Incorrect password"}, status=status.HTTP_401_UNAUTHORIZED)
 

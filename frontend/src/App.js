@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UserDashboard from './pages/UserDashboard';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/query-dashboard" element={<Dashboard />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
       </Routes>
     </Router>
   );
