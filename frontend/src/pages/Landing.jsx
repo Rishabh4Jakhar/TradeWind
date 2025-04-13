@@ -5,7 +5,7 @@ function Landing() {
   const navigate = useNavigate();
   return (
     <div className="container mt-5 text-center">
-      <h1>📈 Welcome to Tradewind</h1>
+      <h1 className='text-3xl font-bold'>📈 Welcome to Tradewind</h1>
       <p className="lead mt-3">
         Tradewind is a simplified trading platform that lets you explore stocks, view portfolios, and run insightful queries on trading activity.
       </p>
