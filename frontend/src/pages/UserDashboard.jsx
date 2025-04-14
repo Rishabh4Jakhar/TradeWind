@@ -5,10 +5,10 @@ import Orders from "./Orders";
 import Portfolio from "./Portfolio";
 
 const UserDashboard = () => {
-  const [activePage, setActivePage] = useState('watchlist');
+  const [activeTab, setActiveTab] = useState('watchlist');
 
   const renderPage = () => {
-    switch (activePage) {
+    switch (activeTab) {
       case 'watchlist':
         return <Watchlist />;
       case 'orders':
@@ -22,7 +22,7 @@ const UserDashboard = () => {
 
   return (
     <div className="d-flex">
-      <Sidebar onTabChange={setActivePage} />
+      <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
       <div className="flex-grow-1 p-3">{renderPage()}</div>
     </div>
   );

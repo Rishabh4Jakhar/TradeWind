@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import '../assets/css/Sidebar.css'; // Create this for basic custom styles if needed
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../assets/css/Sidebar.css'; 
 
-const Sidebar = ({ onTabChange }) => {
+const Sidebar = ({ activeTab, onTabChange }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -16,17 +16,17 @@ const Sidebar = ({ onTabChange }) => {
       {isOpen && (
         <ul className="nav flex-column mt-3">
           <li className="nav-item">
-            <button className="nav-link btn btn-link" onClick={() => onTabChange("watchlist")}>
+            <button className={`btn nav-link text-3xl ${activeTab === "watchlist" ? "active" : "inactive"}`} onClick={() => onTabChange("watchlist")}>
               📈 Watchlist
             </button>
           </li>
           <li className="nav-item">
-            <button className="nav-link btn btn-link" onClick={() => onTabChange('orders')}>
+            <button className={`btn nav-link text-3xl ${activeTab === "orders" ? "active" : "inactive"}`} onClick={() => onTabChange('orders')}>
               💼 Orders
             </button>
           </li>
           <li className="nav-item">
-            <button className="nav-link btn btn-link" onClick={() => onTabChange('portfolio')}>
+            <button className={`btn nav-link text-3xl ${activeTab === "portfolio" ? "active" : "inactive"}`} onClick={() => onTabChange('portfolio')}>
               📊 Portfolio
             </button>
           </li>
