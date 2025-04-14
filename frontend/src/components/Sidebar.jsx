@@ -10,7 +10,7 @@ const Sidebar = ({ onSelect }) => {
   return (
     <div className={`d-flex flex-column bg-light sidebar ${isOpen ? 'expanded' : 'collapsed'}`}>
       <button className="btn btn-outline-primary m-2" onClick={toggleSidebar}>
-        {isOpen ? 'Hide' : 'Show'}
+        {isOpen ? '☰' : '☰'}
       </button>
 
       {isOpen && (

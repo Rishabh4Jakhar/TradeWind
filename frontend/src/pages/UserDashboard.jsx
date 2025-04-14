@@ -1,62 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from 'react';
+import Sidebar from '../components/Sidebar';
 
-function UserDashboard() {
-  const navigate = useNavigate();
-  const userId = localStorage.getItem("userId");
-  const username = localStorage.getItem("username");
-  const [portfolio, setPortfolio] = useState([]);
-  const [transactions, setTransactions] = useState([]);
+const UserDashboard = () => {
+  const [activePage, setActivePage] = useState('watchlist');
 
-  useEffect(() => {
-    if (!userId) return navigate('/login');
-
-    axios.post('http://localhost:8000/api/user-portfolio/', { userid: userId })
-      .then(res => setPortfolio(res.data.results || []));
-
-    axios.post('http://localhost:8000/api/user-transactions/', { userid: userId })
-      .then(res => setTransactions(res.data.results || []));
-
-  }, [userId, navigate]);
+  const renderPage = () => {
+    switch (activePage) {
+      case 'watchlist':
+        return <div>📈 This is the Watchlist Page</div>;
+      case 'orders':
+        return <div>💼 This is the Orders Page</div>;
+      case 'portfolio':
+        return <div>📊 This is the Portfolio Page</div>;
+      default:
+        return <div>Select a tab from sidebar</div>;
+    }
+  };
 
   return (
-    <div className="container mt-4">
-      <h3>{username}'s Dashboard</h3>
-      
-      <h5 className="mt-4">📁 Your Portfolio</h5>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            {portfolio.length > 0 && Object.keys(portfolio[0]).map(k => <th key={k}>{k}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {portfolio.map((row, idx) => (
-            <tr key={idx}>
-              {Object.values(row).map((val, i) => <td key={i}>{val}</td>)}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <h5 className="mt-4">💸 Your Transactions</h5>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            {transactions.length > 0 && Object.keys(transactions[0]).map(k => <th key={k}>{k}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((row, idx) => (
-            <tr key={idx}>
-              {Object.values(row).map((val, i) => <td key={i}>{val}</td>)}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="d-flex">
+      <Sidebar onSelect={setActivePage} />
+      <div className="flex-grow-1 p-3">{renderPage()}</div>
     </div>
   );
-}
+};
 
 export default UserDashboard;
