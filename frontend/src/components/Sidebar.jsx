@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../assets/css/Sidebar.css'; // Create this for basic custom styles if needed
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Sidebar = ({ onSelect }) => {
+const Sidebar = ({ onTabChange }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -16,17 +16,17 @@ const Sidebar = ({ onSelect }) => {
       {isOpen && (
         <ul className="nav flex-column mt-3">
           <li className="nav-item">
-            <button className="nav-link btn btn-link" onClick={() => onSelect('watchlist')}>
+            <button className="nav-link btn btn-link" onClick={() => onTabChange("watchlist")}>
               📈 Watchlist
             </button>
           </li>
           <li className="nav-item">
-            <button className="nav-link btn btn-link" onClick={() => onSelect('orders')}>
+            <button className="nav-link btn btn-link" onClick={() => onTabChange('orders')}>
               💼 Orders
             </button>
           </li>
           <li className="nav-item">
-            <button className="nav-link btn btn-link" onClick={() => onSelect('portfolio')}>
+            <button className="nav-link btn btn-link" onClick={() => onTabChange('portfolio')}>
               📊 Portfolio
             </button>
           </li>

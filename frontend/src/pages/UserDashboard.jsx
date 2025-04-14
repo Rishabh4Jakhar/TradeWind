@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
+import Watchlist from "./Watchlist";
+import Orders from "./Orders";
+import Portfolio from "./Portfolio";
 
 const UserDashboard = () => {
   const [activePage, setActivePage] = useState('watchlist');
@@ -7,19 +10,19 @@ const UserDashboard = () => {
   const renderPage = () => {
     switch (activePage) {
       case 'watchlist':
-        return <div>📈 This is the Watchlist Page</div>;
+        return <Watchlist />;
       case 'orders':
-        return <div>💼 This is the Orders Page</div>;
+        return <Orders />;
       case 'portfolio':
-        return <div>📊 This is the Portfolio Page</div>;
+        return <Portfolio />;
       default:
-        return <div>Select a tab from sidebar</div>;
+        return <Watchlist />;
     }
   };
 
   return (
     <div className="d-flex">
-      <Sidebar onSelect={setActivePage} />
+      <Sidebar onTabChange={setActivePage} />
       <div className="flex-grow-1 p-3">{renderPage()}</div>
     </div>
   );
