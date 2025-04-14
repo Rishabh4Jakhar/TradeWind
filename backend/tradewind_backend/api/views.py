@@ -3,7 +3,9 @@ from rest_framework.response import Response
 from django.db import connection
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import status
-
+from .models import Watchlist, Order, Stock
+from .serializers import WatchlistSerializer, OrderSerializer, StockSerializer
+from django.contrib.auth.models import User
 
 @api_view(['POST'])
 def login_user(request):
@@ -144,3 +146,83 @@ def transactions_in_range(request):
         ORDER BY t.Date_Time DESC
     """
     return Response(run_query(query, [user_id, start_date, end_date], f"Transactions for User ID: {user_id} between {start_date} and {end_date}"))
+
+# Watchlist GET
+@api_view(['GET'])
+def get_watchlist(request, user_id):
+    watchlist = Watchlist.objects.filter(user__id=user_id)
+    serializer = WatchlistSerializer(watchlist, many=True)
+    return Response(serializer.data)
+
+# Watchlist ADD
+@api_view(['POST'])
+def add_to_watchlist(request):
+    user_id = request.data.get('user_id')
+    symbol = request.data.get('symbol')
+
+    try:
+        user = User.objects.get(id=user_id)
+        stock = Stock.objects.get(symbol=symbol)
+        Watchlist.objects.get_or_create(user=user, stock=stock)
+        return Response({"message": "Stock added to watchlist."})
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+# Orders GET
+@api_view(['GET'])
+def get_orders(request, user_id):
+    orders = Order.objects.filter(user__id=user_id).order_by('-created_at')
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)
+
+# Orders PLACE
+@api_view(['POST'])
+def place_order(request):
+    user_id = request.data.get('user_id')
+    symbol = request.data.get('symbol')
+    order_type = request.data.get('order_type')
+    quantity = int(request.data.get('quantity'))
+
+    try:
+        user = User.objects.get(id=user_id)
+        stock = Stock.objects.get(symbol=symbol)
+        price = stock.current_price
+
+        order = Order.objects.create(
+            user=user,
+            stock=stock,
+            order_type=order_type.upper(),
+            quantity=quantity,
+            price_at_order=price
+        )
+        return Response({"message": "Order placed successfully."})
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+# Portfolio GET (calculated from orders)
+@api_view(['GET'])
+def get_portfolio(request, user_id):
+    orders = Order.objects.filter(user__id=user_id)
+    holdings = {}
+
+    for order in orders:
+        sym = order.stock.symbol
+        qty = order.quantity if order.order_type == 'BUY' else -order.quantity
+        if sym not in holdings:
+            holdings[sym] = 0
+        holdings[sym] += qty
+
+    # Get live prices
+    data = []
+    for symbol, quantity in holdings.items():
+        if quantity == 0:
+            continue
+        stock = Stock.objects.get(symbol=symbol)
+        data.append({
+            'symbol': symbol,
+            'quantity': quantity,
+            'current_price': stock.current_price,
+            'total_value': round(quantity * stock.current_price, 2)
+        })
+
+    return Response(data)
