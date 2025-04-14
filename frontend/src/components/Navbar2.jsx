@@ -15,7 +15,7 @@ function Navbar() {
     return (
       <div className="flex justify-between items-center p-4 bg-grey shadow-sm">
         <div>
-          <h1 className="text-xl font-bold nav-link"></h1>
+          <h1 className="text-xl font-bold nav-link">TradeWind</h1>
         </div>
         <div className="flex items-center gap-4">
           {userId ? (
