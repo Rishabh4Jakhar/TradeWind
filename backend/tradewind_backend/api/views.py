@@ -154,19 +154,21 @@ def get_watchlist(request, user_id):
     serializer = WatchlistSerializer(watchlist, many=True)
     return Response(serializer.data)
 
-# Watchlist ADD
 @api_view(['POST'])
 def add_to_watchlist(request):
+    print("Received data:", request.data)  # Add this line
     user_id = request.data.get('user_id')
     symbol = request.data.get('symbol')
 
     try:
         user = User.objects.get(id=user_id)
-        stock = Stock.objects.get(symbol=symbol)
+        stock = Stock.objects.get(symbol=symbol.upper())  # Make case-insensitive
         Watchlist.objects.get_or_create(user=user, stock=stock)
         return Response({"message": "Stock added to watchlist."})
     except Exception as e:
+        print("Error:", str(e))  # Add this too
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 # Orders GET
 @api_view(['GET'])
