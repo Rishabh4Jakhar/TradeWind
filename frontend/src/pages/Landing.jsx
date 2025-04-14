@@ -10,8 +10,8 @@ function Landing() {
         Tradewind is a simplified trading platform that lets you explore stocks, view portfolios, and run insightful queries on trading activity.
       </p>
       <div className="d-flex justify-content-center gap-3 mt-4">
-      <button className="btn btn-primary margin:5px" onClick={() => navigate('/login')}>Login</button>
-      <button className="btn btn-outline-primary" onClick={() => navigate('/register')}>Register</button>
+      <button className="btn btn-primary text-2xl font-bold" style={{ marginRight: "20px", width: "85px", height: "45px"}} onClick={() => navigate('/login')}>Login</button>
+      <button className="btn btn-outline-primary text-xl font-bold" style={{ width: "90px", height: "45px"}} onClick={() => navigate('/register')}>Register</button>
       </div>
     </div>
   );

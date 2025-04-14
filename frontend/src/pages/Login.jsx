@@ -29,8 +29,8 @@ function Login() {
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "400px" }}>
-      <h3>Login to Tradewind</h3>
+    <div className="container mt-5 text-center" style={{ maxWidth: "400px" }}>
+      <h3 className="text-3xl font-bold">Login to Tradewind</h3>
       <form onSubmit={handleLogin}>
         <input
           className="form-control mb-2"

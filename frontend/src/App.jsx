@@ -1,23 +1,20 @@
 import * as React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar2";
+import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import UserDashboard from "./pages/UserDashboard";
 import QueryDashboard from "./components/QueryDashboard";
-import "./App.css";
-import DashboardLayout from "./pages/DashboardLayout";
-import Sidebar from "./components/Sidebar";
+// import "./App.css";
 
 function App() {
   return (
     <Router>
-      <Navbar />
-      <Routes>
+      <Navbar />      
+      <Routes>        
         <Route path="/" element={<Landing />} />
-        <Route path="/dashboard-layout" element={<DashboardLayout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/query-dashboard" element={<QueryDashboard />} />
