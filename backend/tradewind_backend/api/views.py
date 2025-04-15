@@ -169,6 +169,15 @@ def add_to_watchlist(request):
         print("Error:", str(e))  # Add this too
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
+def remove_from_watchlist(request, stock_id):
+    try:
+        watchlist_item = Watchlist.objects.get(user=request.user, stock_id=stock_id)
+        watchlist_item.delete()
+        return Response({'message': 'Removed from watchlist'}, status=200)
+    except Watchlist.DoesNotExist:
+        return Response({'error': 'Item not found in watchlist'}, status=404)
+
 
 # Orders GET
 @api_view(['GET'])
