@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../assets/css/Sidebar.css";
 
 const Watchlist = () => {
   const userId = localStorage.getItem("userId");
@@ -77,13 +78,14 @@ const Watchlist = () => {
             <tr key={item.id}>
               <td>{item.stock.symbol}</td>
               <td>{item.stock.name}</td>
-              <td>₹ {item.stock.current_price}</td>
+              <td>₹ {item.stock.current_price}
               <button
-                className="btn btn-danger btn-sm"
+                className="btn btn-danger btn-sm rem-btn"
                 onClick={() => removeFromWatchlist(item.stock.symbol)}
               >
                 Remove
               </button>
+              </td>              
             </tr>
           ))}
         </tbody>
