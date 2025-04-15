@@ -56,7 +56,7 @@ const Watchlist = () => {
         <input
           type="text"
           className="form-control"
-          placeholder="Enter Stock Symbol (e.g. AAPL)"
+          placeholder="Enter Stock Symbol (e.g. TCS)"
           value={newSymbol}
           onChange={(e) => setNewSymbol(e.target.value)}
         />
