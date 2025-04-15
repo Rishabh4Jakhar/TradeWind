@@ -1,5 +1,4 @@
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db import connection
 from django.contrib.auth.hashers import make_password, check_password
@@ -170,25 +169,6 @@ def add_to_watchlist(request):
         print("Error:", str(e))  # Add this too
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['DELETE'])
-def remove_from_watchlist(request, symbol):
-    user_id = request.query_params.get("user_id") or request.data.get("user_id")
-
-    if not user_id:
-        return Response({'error': 'Missing user ID'}, status=400)
-
-    try:
-        stock = Stock.objects.get(symbol=symbol)
-        watchlist_item = Watchlist.objects.get(user_id=user_id, stock=stock)
-        watchlist_item.delete()
-        return Response({'message': 'Removed from watchlist'}, status=200)
-    except Stock.DoesNotExist:
-        return Response({'error': 'Stock not found'}, status=404)
-    except Watchlist.DoesNotExist:
-        return Response({'error': 'Item not in watchlist'}, status=404)
-
-
-
 
 # Orders GET
 @api_view(['GET'])
@@ -248,3 +228,105 @@ def get_portfolio(request, user_id):
         })
 
     return Response(data)
+
+@api_view(['POST'])
+def place_order(request):
+    user_id = request.data.get('user_id')
+    symbol = request.data.get('symbol')
+    order_type = request.data.get('order_type').upper()  
+    quantity = int(request.data.get('quantity'))
+    order_price = float(request.data.get('price'))  
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT StockID, Current_Price FROM Stock WHERE Symbol = %s", [symbol])
+            stock_row = cursor.fetchone()
+            if not stock_row:
+                return Response({"error": "Invalid stock symbol"}, status=400)
+
+            stock_id, current_price = stock_row
+            margin_low = current_price * 0.985
+            margin_high = current_price * 1.015
+
+            if not (margin_low <= order_price <= margin_high):
+                return Response({"error": "Order price outside ±1.5% range of current market price"}, status=400)
+
+            total_cost = order_price * quantity
+
+            if order_type == 'BUY':
+                cursor.execute("SELECT Virtual_Balance FROM User WHERE UserID = %s", [user_id])
+                balance = cursor.fetchone()[0]
+
+                if total_cost > balance:
+                    return Response({"error": "Insufficient funds"}, status=400)
+
+                cursor.execute("""
+                    UPDATE User SET Virtual_Balance = Virtual_Balance - %s
+                    WHERE UserID = %s
+                """, [total_cost, user_id])
+
+                cursor.execute("""
+                    SELECT PortfolioID, Quantity FROM Portfolio
+                    WHERE UserID = %s AND StockID = %s
+                """, [user_id, stock_id])
+                port = cursor.fetchone()
+
+                if port:
+                    portfolio_id, existing_qty = port
+                    cursor.execute("""
+                        UPDATE Portfolio SET Quantity = Quantity + %s
+                        WHERE PortfolioID = %s AND StockID = %s
+                    """, [quantity, portfolio_id, stock_id])
+                else:
+                    portfolio_id = int(f"{user_id}{stock_id}")
+                    cursor.execute("""
+                        INSERT INTO Portfolio (PortfolioID, UserID, StockID, Quantity)
+                        VALUES (%s, %s, %s, %s)
+                    """, [portfolio_id, user_id, stock_id, quantity])
+
+                cursor.execute("""
+                    INSERT INTO Transaction (UserID, StockID, PortfolioID, Quantity, Price, Buy_Sell, Status, Remarks)
+                    VALUES (%s, %s, %s, %s, %s, 'Buy', 'EXECUTED', 'N/A')
+                """, [user_id, stock_id, portfolio_id, quantity, order_price])
+
+            elif order_type == 'SELL':
+                cursor.execute("""
+                    SELECT PortfolioID, Quantity FROM Portfolio
+                    WHERE UserID = %s AND StockID = %s
+                """, [user_id, stock_id])
+                port = cursor.fetchone()
+
+                if not port or port[1] < quantity:
+                    return Response({"error": "Insufficient stock holdings"}, status=400)
+
+                portfolio_id, current_qty = port
+
+                new_qty = current_qty - quantity
+                if new_qty == 0:
+                    cursor.execute("""
+                        DELETE FROM Portfolio
+                        WHERE PortfolioID = %s AND StockID = %s
+                    """, [portfolio_id, stock_id])
+                else:
+                    cursor.execute("""
+                        UPDATE Portfolio SET Quantity = %s
+                        WHERE PortfolioID = %s AND StockID = %s
+                    """, [new_qty, portfolio_id, stock_id])
+
+                cursor.execute("""
+                    UPDATE User SET Virtual_Balance = Virtual_Balance + %s
+                    WHERE UserID = %s
+                """, [total_cost, user_id])
+
+                cursor.execute("""
+                    INSERT INTO Transaction (UserID, StockID, PortfolioID, Quantity, Price, Buy_Sell, Status, Remarks)
+                    VALUES (%s, %s, %s, %s, %s, 'Sell', 'EXECUTED', 'N/A')
+                """, [user_id, stock_id, portfolio_id, quantity, order_price])
+
+            else:
+                return Response({"error": "Invalid order type"}, status=400)
+
+        return Response({"message": "Order placed and processed successfully."})
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
