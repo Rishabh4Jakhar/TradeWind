@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../assets/css/Sidebar.css'; 
+import '../assets/css/Sidebar.css';
 
 const Sidebar = ({ activeTab, onTabChange }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -30,6 +30,13 @@ const Sidebar = ({ activeTab, onTabChange }) => {
               📊 Portfolio
             </button>
           </li>
+          {/*}
+          <li className="nav-item">
+            <button className={`btn nav-link text-3xl ${activeTab === "placeOrder" ? "active" : "inactive"}`} onClick={() => onTabChange('placeOrder')}>
+              🛒 Place Order
+            </button>
+          </li>
+          */}
         </ul>
       )}
     </div>
