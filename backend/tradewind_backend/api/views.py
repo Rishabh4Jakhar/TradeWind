@@ -169,7 +169,23 @@ def add_to_watchlist(request):
         print("Error:", str(e))  # Add this too
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
+def remove_from_watchlist(request, symbol):
+    user_id = request.query_params.get("user_id") or request.data.get("user_id")
 
+    if not user_id:
+        return Response({'error': 'Missing user ID'}, status=400)
+
+    try:
+        stock = Stock.objects.get(symbol=symbol)
+        watchlist_item = Watchlist.objects.get(user_id=user_id, stock=stock)
+        watchlist_item.delete()
+        return Response({'message': 'Removed from watchlist'}, status=200)
+    except Stock.DoesNotExist:
+        return Response({'error': 'Stock not found'}, status=404)
+    except Watchlist.DoesNotExist:
+        return Response({'error': 'Item not in watchlist'}, status=404)
+    
 # Orders GET
 @api_view(['GET'])
 def get_orders(request, user_id):
@@ -247,6 +263,8 @@ def get_profile(request):
                 return Response({"error": "User not found"}, status=404)
     except Exception as e:
         return Response({"error": str(e)}, status=400)
+
+@api_view(['POST'])
 def place_order(request):
     user_id = request.data.get('user_id')
     symbol = request.data.get('symbol')
