@@ -8,7 +8,9 @@ const Watchlist = () => {
 
   const fetchWatchlist = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/api/watchlist/${userId}/`);
+      const res = await axios.get(
+        `http://localhost:8000/api/watchlist/${userId}/`
+      );
       setWatchlist(res.data);
     } catch (err) {
       console.error("Failed to fetch watchlist:", err);
@@ -26,6 +28,18 @@ const Watchlist = () => {
       fetchWatchlist(); // refresh
     } catch (err) {
       console.error("Failed to add stock:", err);
+    }
+  };
+
+  const removeFromWatchlist = async (symbol) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/watchlist/remove/${symbol}/`, {
+        data: { user_id: localStorage.getItem("userId") },
+      });
+      console.log("Stock removed from watchlist:", symbol);      
+      fetchWatchlist(); // Refresh list
+    } catch (err) {
+      alert("Error removing stock from watchlist.");
     }
   };
 
@@ -64,6 +78,12 @@ const Watchlist = () => {
               <td>{item.stock.symbol}</td>
               <td>{item.stock.name}</td>
               <td>₹ {item.stock.current_price}</td>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={() => removeFromWatchlist(item.stock.symbol)}
+              >
+                Remove
+              </button>
             </tr>
           ))}
         </tbody>

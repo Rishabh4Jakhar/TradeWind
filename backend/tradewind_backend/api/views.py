@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db import connection
 from django.contrib.auth.hashers import make_password, check_password
@@ -170,13 +171,23 @@ def add_to_watchlist(request):
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
-def remove_from_watchlist(request, stock_id):
+def remove_from_watchlist(request, symbol):
+    user_id = request.query_params.get("user_id") or request.data.get("user_id")
+
+    if not user_id:
+        return Response({'error': 'Missing user ID'}, status=400)
+
     try:
-        watchlist_item = Watchlist.objects.get(user=request.user, stock_id=stock_id)
+        stock = Stock.objects.get(symbol=symbol)
+        watchlist_item = Watchlist.objects.get(user_id=user_id, stock=stock)
         watchlist_item.delete()
         return Response({'message': 'Removed from watchlist'}, status=200)
+    except Stock.DoesNotExist:
+        return Response({'error': 'Stock not found'}, status=404)
     except Watchlist.DoesNotExist:
-        return Response({'error': 'Item not found in watchlist'}, status=404)
+        return Response({'error': 'Item not in watchlist'}, status=404)
+
+
 
 
 # Orders GET
