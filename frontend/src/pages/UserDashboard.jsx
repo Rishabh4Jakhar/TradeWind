@@ -3,12 +3,15 @@ import Sidebar from '../components/Sidebar';
 import Watchlist from "./Watchlist";
 import Orders from "./Orders";
 import Portfolio from "./Portfolio";
+import Profile from './Profile';
 
 const UserDashboard = () => {
-  const [activeTab, setActiveTab] = useState('watchlist');
+  const [activeTab, setActiveTab] = useState('profile');
 
   const renderPage = () => {
     switch (activeTab) {
+      case 'profile':
+        return <Profile />;      
       case 'watchlist':
         return <Watchlist />;
       case 'orders':
@@ -16,7 +19,7 @@ const UserDashboard = () => {
       case 'portfolio':
         return <Portfolio />;
       default:
-        return <Watchlist />;
+        return <Profile />;
     }
   };
 

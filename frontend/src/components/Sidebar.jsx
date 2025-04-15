@@ -16,6 +16,11 @@ const Sidebar = ({ activeTab, onTabChange }) => {
       {isOpen && (
         <ul className="nav flex-column mt-3">
           <li className="nav-item">
+            <button className={`btn nav-link text-3xl ${activeTab === "profile" ? "active" : "inactive"}`} onClick={() => onTabChange("profile")}>
+            👤 Profile
+            </button>
+          </li>
+          <li className="nav-item">
             <button className={`btn nav-link text-3xl ${activeTab === "watchlist" ? "active" : "inactive"}`} onClick={() => onTabChange("watchlist")}>
               📈 Watchlist
             </button>

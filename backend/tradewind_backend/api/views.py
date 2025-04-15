@@ -248,3 +248,22 @@ def get_portfolio(request, user_id):
         })
 
     return Response(data)
+
+@api_view(['POST'])
+def get_profile(request):
+    user_id = request.data.get('userid')
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT UserID, Name, Email, Password, Virtual_Balance
+                FROM User
+                WHERE UserID = %s
+            """, [user_id])
+            result = cursor.fetchone()
+            if result:
+                keys = ["userid", "name", "email", "password", "virtual_balance"]
+                return Response(dict(zip(keys, result)))
+            else:
+                return Response({"error": "User not found"}, status=404)
+    except Exception as e:
+        return Response({"error": str(e)}, status=400)
