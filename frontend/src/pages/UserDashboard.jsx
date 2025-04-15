@@ -4,6 +4,7 @@ import Watchlist from "./Watchlist";
 import Orders from "./Orders";
 import Portfolio from "./Portfolio";
 import Profile from './Profile';
+//import PlaceOrder from "./PlaceOrder";
 
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -18,6 +19,8 @@ const UserDashboard = () => {
         return <Orders />;
       case 'portfolio':
         return <Portfolio />;
+      /*case 'placeOrder':
+        return <PlaceOrder />;*/
       default:
         return <Profile />;
     }
