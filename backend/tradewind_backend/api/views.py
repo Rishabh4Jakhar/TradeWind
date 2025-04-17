@@ -156,7 +156,7 @@ def get_watchlist(request, user_id):
 
 @api_view(['POST'])
 def add_to_watchlist(request):
-    print("Received data:", request.data)  # Add this line
+    #print("Received data:", request.data)  # Add this line
     user_id = request.data.get('user_id')
     symbol = request.data.get('symbol')
 
@@ -166,7 +166,7 @@ def add_to_watchlist(request):
         Watchlist.objects.get_or_create(user=user, stock=stock)
         return Response({"message": "Stock added to watchlist."})
     except Exception as e:
-        print("Error:", str(e))  # Add this too
+        #print("Error:", str(e))  # Add this too
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
