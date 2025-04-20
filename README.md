@@ -168,6 +168,16 @@ mysql -u your_user -p your_database_name < create_tables.sql
 mysql -u your_user -p your_database_name < insert_tables.sql
 ```
 
+### 🔒 Additional One-Time Setup Scripts
+
+After inserting the data you might want to run these files one-time:
+
+- Run `hash_existing_passwords.py` to hash plain-text passwords inside the `User` table (`create_tables.sql` has password of users stored in raw, so we use django password hasher to has them. **Irreversible action**).
+- Then run `sync_users.py` to migrate the `User` table entries into Django's `auth_user` table with proper password hashing.
+
+
+> You might have to run few sql commands to sync/create tables such as api_stock, api_order, etc. 
+
 ---
 
 ## Features Implemented
@@ -196,11 +206,4 @@ mysql -u your_user -p your_database_name < insert_tables.sql
 
 ---
 
-## 👨‍💻 Contributors
-
-- **Rishabh** — Full Stack Developer, Project Creator
-- (Add teammates if any)
-
----
-
-# Thank you for visiting and using TradeWind!
+# Thanks for visting TradeWind! :D
