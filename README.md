@@ -1,5 +1,11 @@
 # TradeWind - Trading Platform (React + Django + MySQL)
 
+![License](https://img.shields.io/badge/license-MIT-green)
+![Build with](https://img.shields.io/badge/Built%20with-React%20%2B%20Django%20%2B%20MySQL-blue)
+![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
+![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen)
+
+
 TradeWind is a **full-stack trading simulation platform `(in development)`** where users can register, log in, view stock prices, maintain a watchlist, place buy/sell orders, and manage their portfolio holdings.
 
 Built using **React + Vite** for frontend, **Django** for backend, and **MySQL** for database management.
@@ -198,14 +204,14 @@ After inserting the data you might want to run these files one-time:
 
 ## To-Do
 
-- Add toast notifications on API calls
-- Modal-based forms for placing orders
-- Live stock price updates from external APIs
-- Portfolio analytics and charts
-- Admin panel for managing stocks
-- Transaction history improvements (Pending/Executed/Canceled orders)
-- Mobile responsive UI improvements
-- Full deployment
+- [ ] Add toast notifications on API calls
+- [ ] Modal-based forms for placing orders
+- [ ] Live stock price updates from external APIs
+- [ ] Portfolio analytics and charts
+- [ ] Admin panel for managing stocks
+- [ ] Transaction history improvements (Pending/Executed/Canceled orders)
+- [ ] Mobile responsive UI improvements
+- [ ] Full deployment
 
 ---
 
