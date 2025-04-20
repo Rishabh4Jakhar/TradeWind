@@ -1,8 +1,12 @@
 # TradeWind - Trading Platform (React + Django + MySQL)
 
-TradeWind is a **full-stack trading simulation platform** where users can register, log in, view stock prices, maintain a watchlist, place buy/sell orders, and manage their portfolio holdings.
+TradeWind is a **full-stack trading simulation platform `(in development)`** where users can register, log in, view stock prices, maintain a watchlist, place buy/sell orders, and manage their portfolio holdings.
 
 Built using **React + Vite** for frontend, **Django** for backend, and **MySQL** for database management.
+
+This was initially made for CSE202 (Fundamentals of Database Management System) course under Mukesh Mohania. 
+<br><br>
+Contact me at **[Discord](https://discord.com/users/713056818972066140)** for anything related to the project :D
 
 ---
 
@@ -16,7 +20,7 @@ Built using **React + Vite** for frontend, **Django** for backend, and **MySQL**
 
 ---
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 /backend (Django Project)
@@ -36,7 +40,12 @@ Built using **React + Vite** for frontend, **Django** for backend, and **MySQL**
 
 ---
 
+## Running
+
+Run both backend and frontend on dedicated terminals using the setup below.
+
 ## Backend Setup (Django)
+
 
 ### 1. Install Python dependencies
 
@@ -111,15 +120,15 @@ Frontend will start on:
 
 ---
 
-## 📜 Requirements Files
+## Requirements Files
 
-### Backend `requirements.txt`
+### Backend dependencies (from `requirements.txt`)
 
 ```plaintext
-django
-djangorestframework
-mysqlclient
-djangorestframework-simplejwt
+django>=4.2
+djangorestframework>=3.14
+mysqlclient>=2.2
+djangorestframework-simplejwt>=5.2
 ```
 
 ### Frontend dependencies (from `package.json`)
@@ -154,21 +163,14 @@ You will need to **create and populate** the following tables:
 - `Portfolio`
 - `Transaction`
 
-We provide two SQL files:
+Two SQL files are uploaded:
 
 - **create_tables.sql** ➔ defines the table structure.
 - **insert_tables.sql** ➔ inserts initial sample data (users, stocks, transactions, portfolios).
 
-> Upload both SQL files to your GitHub repo alongside the code.
+Another SQL file is uploaded for some sample queries on these tables (**`queries.sql`**)
 
-### Running SQL manually:
-
-```bash
-mysql -u your_user -p your_database_name < create_tables.sql
-mysql -u your_user -p your_database_name < insert_tables.sql
-```
-
-### 🔒 Additional One-Time Setup Scripts
+### Additional One-Time Setup Scripts
 
 After inserting the data you might want to run these files one-time:
 
