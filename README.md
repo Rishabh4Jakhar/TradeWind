@@ -1,4 +1,4 @@
-# TradeWind - Trading Platform (React + Django + MySQL)
+<h1 align="center">TradeWind</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-green" />
