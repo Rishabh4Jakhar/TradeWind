@@ -1,10 +1,11 @@
 # TradeWind - Trading Platform (React + Django + MySQL)
 
-![License](https://img.shields.io/badge/license-MIT-green)
-![Build with](https://img.shields.io/badge/Built%20with-React%20%2B%20Django%20%2B%20MySQL-blue)
-![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
-![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen)
-
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-green" />
+  <img src="https://img.shields.io/badge/Built%20with-React%20%2B%20Django%20%2B%20MySQL-blue" />
+  <img src="https://img.shields.io/badge/Status-In%20Progress-orange" />
+  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen" />
+</p>
 
 TradeWind is a **full-stack trading simulation platform `(in development)`** where users can register, log in, view stock prices, maintain a watchlist, place buy/sell orders, and manage their portfolio holdings.
 
