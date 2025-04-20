@@ -29,9 +29,9 @@ Built using **React + Vite** for frontend, **Django** for backend, and **MySQL**
   - src/
     - components/
     - pages/
+  - package.json (for frontend)  
 - README.md
 - requirements.txt (for backend)
-- package.json (for frontend)
 ```
 
 ---
