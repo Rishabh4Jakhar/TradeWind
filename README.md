@@ -17,7 +17,7 @@ Contact me at **[Discord](https://discord.com/users/713056818972066140)** for an
 
 ---
 
-## Technologies and Frameworks Used
+## Frameworks
 
 | Area     | Stack                               |
 | -------- | ----------------------------------- |
@@ -205,14 +205,14 @@ After inserting the data you might want to run these files one-time:
 
 ## To-Do
 
-- [x] Add toast notifications on API calls
-- [ ] Modal-based forms for placing orders
-- [ ] Live stock price updates from external APIs
-- [ ] Portfolio analytics and charts
-- [ ] Admin panel for managing stocks
-- [ ] Transaction history improvements (Pending/Executed/Canceled orders)
-- [ ] Mobile responsive UI improvements
-- [ ] Full deployment
+- Add toast notifications on API calls
+- Modal-based forms for placing orders
+- Live stock price updates from external APIs
+- Portfolio analytics and charts
+- Admin panel for managing stocks
+- Transaction history improvements (Pending/Executed/Canceled orders)
+- Mobile responsive UI improvements
+- Full deployment
 
 ---
 
