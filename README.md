@@ -116,7 +116,8 @@ npm run dev
 Frontend will start on:  
 📍 `http://localhost:3000/`
 
-> **Note:** Ensure that the backend is running on `localhost:8000` for API calls.
+> [!NOTE]
+> Ensure that the backend is running on `localhost:8000` for API calls.
 
 ---
 
@@ -177,7 +178,7 @@ After inserting the data you might want to run these files one-time:
 - Run `hash_existing_passwords.py` to hash plain-text passwords inside the `User` table (`create_tables.sql` has password of users stored in raw, so we use django password hasher to has them. **Irreversible action**).
 - Then run `sync_users.py` to migrate the `User` table entries into Django's `auth_user` table with proper password hashing.
 
-
+> [!WARNING]
 > You might have to run few sql commands to sync/create tables such as api_stock, api_order, etc. 
 
 ---
