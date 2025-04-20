@@ -205,7 +205,7 @@ After inserting the data you might want to run these files one-time:
 
 ## To-Do
 
-- [ ] Add toast notifications on API calls
+- [x] Add toast notifications on API calls
 - [ ] Modal-based forms for placing orders
 - [ ] Live stock price updates from external APIs
 - [ ] Portfolio analytics and charts
