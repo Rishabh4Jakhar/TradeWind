@@ -13,7 +13,16 @@ Built using **React + Vite** for frontend, **Django** for backend, and **MySQL**
 
 This was initially made for CSE202 (Fundamentals of Database Management System) course under Mukesh Mohania. 
 <br><br>
-Contact me at **[Discord](https://discord.com/users/713056818972066140)** for anything related to the project :D
+---
+
+## 👥 Project Members
+
+- **Rishabh Jhakar**
+- **Saksham Arora**
+- **Garvit**
+- **Tanishq Goyal**
+
+---
 
 ---
 
